@@ -7,10 +7,10 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.USER_LOGIN_ACTION:
-            console.log('action: ' + state.loginToken);
+            console.log('action: ' + action.loginToken);
             return {
                 ...state,
-                loginToken: state.loginToken,
+                loginToken: action.loginToken,
             }
         default:
             return state;

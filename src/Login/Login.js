@@ -77,7 +77,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onUserLogin: (userToken) => dispatch( { type: actionTypes.USER_LOGIN_ACTION, loginToken: userToken } )
+        onUserLogin: (userToken) => dispatch( { type: actionTypes.USER_LOGIN_ACTION, loginToken: userToken } ),
     };
 }
 
