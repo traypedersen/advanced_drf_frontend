@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 const axios = require('axios');
 
 
@@ -6,12 +7,20 @@ class UserInfoButton extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            email: '',
+            name: '',
+        };
     }
 
     handleUserInfo = (event) => {
-        axios.get('http://127.0.0.1:8000/api/user/me/', { 'headers': { 'Authorization': 'Token d8d6f7dbc989b17c78bdf5549ae76fd4497ef08b' } })
+        const userToken = 'Token ' + this.props.loginToken;
+        axios.get('http://127.0.0.1:8000/api/user/me/', { 'headers': { 'Authorization': userToken } })
         .then( (response) => {
-          console.log(response.data);
+          this.setState({
+            name: response.data.name,
+            email: response.data.email,
+          });
         })
         .catch( (error) => {
           console.log(error);
@@ -19,13 +28,32 @@ class UserInfoButton extends Component {
     }
 
     render() {
+        let userEmail = this.state.email;
+        let userName = this.state.name;
+        let userInfo;
+        if(userEmail && userName) {
+            userInfo = 'userEmail: ' + userEmail + ' userName: ' + userName;
+        } else {
+            userInfo = '';
+        }
         return (
             <div>
-                <button onClick={this.handleUserInfo} type="button">Show your user info.</button>
+                <div>
+                    <button onClick={this.handleUserInfo} type="button">Show your user info.</button>
+                </div>
+                <div>
+                    {userInfo}
+                </div>
             </div>
         )
     }
 
 }
 
-export default UserInfoButton;
+const mapStateToProps = state => {
+    return {
+        loginToken: state.loginToken
+    };
+}
+
+export default connect(mapStateToProps)(UserInfoButton);

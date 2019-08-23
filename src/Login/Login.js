@@ -30,7 +30,6 @@ class Login extends Component {
             email: this.state.email,
             password: this.state.password,
         }).then( (response) => {
-            console.log('response: ' + response.data.token);
             this.props.onUserLogin(response.data.token);
         })
         .catch( (error) => {
